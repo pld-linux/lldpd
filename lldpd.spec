@@ -1,13 +1,15 @@
-Summary:	Open Source implementation of IEEE 802.1AB
-Summary(pl.UTF-8):	Implementacja IEEE 802.1AB z otwartymi źródłami
+## TODO:
+# - separate package with client and daemon (possible?)
+
+Summary:	Implementation of IEEE 802.1AB, EDP and CDP
+Summary(pl.UTF-8):	Implementacja IEEE 802.1AB, EDP oraz CDP
 Name:		lldpd
 Version:	0.5.7
 Release:	0.1
 License:	GPL
 Group:		Networking
-#Source0:	http://dl.sourceforge.net/openlldp/%{name}-%{version}%{subver}.tar.bz2
 Source0:	http://media.luffy.cx/files/lldpd/%{name}-%{version}.tar.gz
-# Source0-md5:	68d11173cfaecd5ae00ec57a28d94ee5
+# Source0-md5:	3db3a80fa6a384cd59e9d6a42ce7b630
 #Source2:	%{name}-lldpd.init
 #Source3:	%{name}-lldpd.sysconfig
 #Source4:	%{name}-lldpd.service
@@ -42,15 +44,12 @@ on bridges. More complex setups may give false results.
 %setup -q
 
 %build
-%{__aclocal}
-%{__autoconf}
-%{__automake}
 %configure
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-#install -d $RPM_BUILD_ROOT{/etc/{sysconfig,rc.d/init.d},%{_mandir}/man8,%{systemdunitdir}}
+#install -d $RPM_BUILD_ROOT{/etc/{sysconfig,rc.d/init.d},%{systemdunitdir}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -82,10 +81,12 @@ fi
 
 %files
 %defattr(644,root,root,755)
-#%doc AUTHORS ChangeLog LICENSE README
+%doc CHANGELOG README.md
 #%attr(754,root,root) /etc/rc.d/init.d/lldpd
 #%config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/lldpd
 #%{systemdunitdir}/lldpd.service
-#%attr(755,root,root) %{_sbindir}/lldpd
-#%attr(755,root,root) %{_bindir}/lldpneighbors
-#%{_mandir}/man8/*.8*
+%attr(755,root,root) %{_sbindir}/lldpd
+%attr(755,root,root) %{_sbindir}/lldpctl
+%{_mandir}/man8/lldpd.8*
+%{_mandir}/man8/lldpctl.8*
+
