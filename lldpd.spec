@@ -5,7 +5,7 @@ Summary:	Implementation of IEEE 802.1AB, EDP and CDP
 Summary(pl.UTF-8):	Implementacja IEEE 802.1AB, EDP oraz CDP
 Name:		lldpd
 Version:	0.5.7
-Release:	0.1
+Release:	1
 License:	MIT
 Group:		Networking
 Source0:	http://media.luffy.cx/files/lldpd/%{name}-%{version}.tar.gz
@@ -44,12 +44,16 @@ on bridges. More complex setups may give false results.
 %setup -q
 
 %build
-%configure
+%configure \
+	--with-privsep-user=daemon \
+	--with-privsep-group=daemon \
+	--with-privsep-chroot=/usr/share/empty
+
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{/etc/{sysconfig,rc.d/init.d},%{systemdunitdir}}
+install -d $RPM_BUILD_ROOT{/etc/{sysconfig,rc.d/init.d},%{systemdunitdir}} 
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
