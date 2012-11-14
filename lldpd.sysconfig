@@ -1,0 +1,3 @@
+# Customized settings for lldpd
+
+LLDP_OPT=""

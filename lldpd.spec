@@ -10,15 +10,15 @@ License:	MIT
 Group:		Networking
 Source0:	http://media.luffy.cx/files/lldpd/%{name}-%{version}.tar.gz
 # Source0-md5:	3db3a80fa6a384cd59e9d6a42ce7b630
-#Source2:	%{name}-lldpd.init
-#Source3:	%{name}-lldpd.sysconfig
-#Source4:	%{name}-lldpd.service
+Source1:	%{name}.init
+Source2:	%{name}.sysconfig
+#Source3:	%{name}-lldpd.service
 URL:		https://github.com/vincentbernat/lldpd/wiki
 BuildRequires:	autoconf >= 1.5
 BuildRequires:	automake
-BuildRequires:	libconfuse-devel
 Requires(post,preun,postun):	systemd-units >= 38
 Requires:	systemd-units >= 38
+Conflicts:	openlldp
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -49,13 +49,13 @@ on bridges. More complex setups may give false results.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-#install -d $RPM_BUILD_ROOT{/etc/{sysconfig,rc.d/init.d},%{systemdunitdir}}
+install -d $RPM_BUILD_ROOT{/etc/{sysconfig,rc.d/init.d},%{systemdunitdir}}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-#install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/lldpd
-#install %{SOURCE3} $RPM_BUILD_ROOT/etc/sysconfig/lldpd
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/lldpd
+install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/lldpd
 #install %{SOURCE4} $RPM_BUILD_ROOT%{systemdunitdir}/lldpd.service
 
 %clean
@@ -64,7 +64,7 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/chkconfig --add lldpd
 %service lldpd restart "LLDP Daemon"
-%systemd_post lldpd.service
+#systemd_post lldpd.service
 
 %preun
 if [ "$1" = "0" ]; then
@@ -76,14 +76,14 @@ fi
 %postun
 %systemd_reload
 
-%triggerpostun -- openlldp < 0.4
+%triggerpostun -- lldpd < 0.4
 %systemd_trigger lldpd.service
 
 %files
 %defattr(644,root,root,755)
 %doc CHANGELOG README.md
-#%attr(754,root,root) /etc/rc.d/init.d/lldpd
-#%config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/lldpd
+%attr(754,root,root) /etc/rc.d/init.d/lldpd
+%config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/lldpd
 #%{systemdunitdir}/lldpd.service
 %attr(755,root,root) %{_sbindir}/lldpd
 %attr(755,root,root) %{_sbindir}/lldpctl
