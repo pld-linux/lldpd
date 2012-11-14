@@ -1,3 +1,8 @@
 # Customized settings for lldpd
+# Additional protocol support.
+# -c       Enable the support of CDP protocol. (Cisco)
+# -e       Enable the support of EDP protocol. (Extreme)
+# -f       Enable the support of FDP protocol. (Foundry)
+# -s       Enable the support of SONMP protocol. (Nortel)
 
-LLDP_OPT=""
+LLDP_OPT="-c"
