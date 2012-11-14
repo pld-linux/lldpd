@@ -6,7 +6,7 @@ Summary(pl.UTF-8):	Implementacja IEEE 802.1AB, EDP oraz CDP
 Name:		lldpd
 Version:	0.5.7
 Release:	0.1
-License:	GPL
+License:	MIT
 Group:		Networking
 Source0:	http://media.luffy.cx/files/lldpd/%{name}-%{version}.tar.gz
 # Source0-md5:	3db3a80fa6a384cd59e9d6a42ce7b630
