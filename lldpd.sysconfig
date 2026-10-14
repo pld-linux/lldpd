@@ -4,5 +4,6 @@
 # -e       Enable the support of EDP protocol. (Extreme)
 # -f       Enable the support of FDP protocol. (Foundry)
 # -s       Enable the support of SONMP protocol. (Nortel)
+# -x       Enable SNMP subagent.
 
-LLDP_OPT="-c"
+LLDPD_OPTIONS="-c"

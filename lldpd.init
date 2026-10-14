@@ -19,7 +19,8 @@ start() {
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/lldpd ]; then
 		msg_starting "LLDP Daemon"
-		daemon /usr/sbin/lldpd $LLDP_OPT
+		# honour LLDP_OPT from sysconfig files that lack upstream's LLDPD_OPTIONS
+		daemon /usr/sbin/lldpd ${LLDPD_OPTIONS-$LLDP_OPT}
 		RETVAL=$?
 		if [ $RETVAL -eq 0 ]; then
 		   	touch /var/lock/subsys/lldpd
